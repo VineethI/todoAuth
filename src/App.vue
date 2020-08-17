@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-main>
+      <div class="theme">
+        <v-switch label="Theme" class="ma-2" v-model="$vuetify.theme.dark" color="#FFFFFF"></v-switch>
+        <v-spacer></v-spacer>
+        <v-btn @click="signOut" class="ma-2" text>Sign Out</v-btn>
+      </div>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import * as firebase from "firebase/app";
+import "firebase/auth";
+export default {
+  name: "App",
+  methods: {
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log("User Signed Out");
+          this.$router.push("/");
+        });
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.theme {
+  display: flex;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+body {
+  font-family: "Lexend Deca", sans-serif;
+  .app {
+    font-family: "Lexend Deca", sans-serif;
   }
 }
 </style>
